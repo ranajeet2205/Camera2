@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +41,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -104,7 +106,10 @@ public class Camera2VideoFragment extends Fragment
      */
     private CameraDevice mCameraDevice;
 
-
+    /**
+     * Chronometer is used to show the timer
+     */
+    private Chronometer chronometer;
 
     /**
      * A reference to the current {@link android.hardware.camera2.CameraCaptureSession} for
@@ -279,6 +284,7 @@ public class Camera2VideoFragment extends Fragment
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
         mButtonVideo = (Button) view.findViewById(R.id.video);
         mImgVideo = view.findViewById(R.id.video_img);
+        chronometer = view.findViewById(R.id.chronometer);
         mButtonVideo.setOnClickListener(this);
         mImgVideo.setOnClickListener(this);
         view.findViewById(R.id.info).setOnClickListener(this);
@@ -628,6 +634,8 @@ public class Camera2VideoFragment extends Fragment
             return;
         }
         try {
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            chronometer.start();
             closePreviewSession();
             setUpMediaRecorder();
             SurfaceTexture texture = mTextureView.getSurfaceTexture();
@@ -690,6 +698,7 @@ public class Camera2VideoFragment extends Fragment
     }
 
     private void stopRecordingVideo() {
+        chronometer.stop();
         // UI
         mIsRecordingVideo = false;
         mButtonVideo.setText(R.string.record);

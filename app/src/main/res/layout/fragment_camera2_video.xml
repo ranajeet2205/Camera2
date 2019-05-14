@@ -18,6 +18,13 @@
         android:layout_below="@id/texture"
         android:background="#4285f4">
 
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_horizontal"/>
+
         <ImageView
             android:id="@+id/video_img"
             android:layout_width="wrap_content"
